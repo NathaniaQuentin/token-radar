@@ -158,8 +158,8 @@ function main(): void {
   }
 
   // --- 4. The output -------------------------------------------------------------------------
-  if (exists(output)) rmSync(output, { recursive: true, force: true });
   mkdirSync(output, { recursive: true });
+  for (const child of readdirSync(output)) rmSync(join(output, child), { recursive: true, force: true });
   const boardJson = `${JSON.stringify({ rows: board }, null, 2)}\n`;
   writeFileSync(join(output, 'board.json'), boardJson, 'utf8');
   const boardBytes = Buffer.byteLength(boardJson);
