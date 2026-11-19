@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — the pre-token protocol board</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="radar-dot" aria-hidden="true"></span><span class="brand-name">TOKEN RADAR</span><span class="brand-sub">pre-token protocol board</span></div>
+  <div class="top-meta" id="top-meta"></div>
+</header>
+<main>
+  <section class="hero">
+    <h1>Every protocol that still records no token, ranked by what its launch would be worth.</h1>
+    <p class="lede">One sealed snapshot of every protocol DefiLlama tracks. The board covers the whole watchlist and every pre-token protocol below the floor that passes the same no-wrapped, no-staked, no-bridged test. Live-token protocols are kept apart and shown as the market's own values, never mixed into the ranking.</p>
+    <div class="facts" id="facts"></div>
+  </section>
+  <section class="panel" id="method">
+    <h2>How the value is worked out</h2>
+    <p>Implied value = TVL &times; comparable multiple &times; growth &times; maturity &times; chains. The multiple is the median market-cap / TVL of the live-token protocols in the same category, blended half and half with the all-category median, so no protocol is scored on a name the model never saw. Growth is the 7-day change, clamped to &minus;60%..+120% and weighted by half. Maturity rises with how long the protocol has run with no token, from 0.6 to 1.0 over three years. Chains adds 2% per extra chain, up to five.</p>
+    <div class="formula">implied = TVL &times; multiple &times; (1 + growth &times; 0.5) &times; (0.6 + age / 1095 &times; 0.4) &times; (1 + 0.02 &times; chains)</div>
+    <p class="caveat">A protocol is called pre-token because its record carries no token — no market cap, no CoinGecko id, no symbol — never that it has none. Implied value is a model from the snapshot's own figures, not a promise of an airdrop or a price.</p>
+    <div id="comparables"></div>
+  </section>
+  <section class="panel controls" aria-label="Board controls">
+    <div class="tabs" role="tablist" aria-label="Board view">
+      <button type="button" class="tab active" data-tab="pre" role="tab" aria-selected="true">Pre-token <span id="count-pre"></span></button>
+      <button type="button" class="tab" data-tab="live" role="tab" aria-selected="false">Live token <span id="count-live"></span></button>
+    </div>
+    <div class="filters">
+      <label>Search <input id="q" type="search" placeholder="name or slug" autocomplete="off"></label>
+      <label>Category <select id="category"><option value="">All categories</option></select></label>
+      <label>Chain <select id="chain"><option value="">All chains</option></select></label>
+      <label class="check"><input id="watchlist-only" type="checkbox"> Watchlist only</label>
+    </div>
+    <div class="result-line" id="result-line"></div>
+  </section>
+  <section class="panel board-panel">
+    <table class="board" id="board">
+      <thead>
+        <tr>
+          <th data-sort="rank" aria-sort="ascending">Rank</th>
+          <th data-sort="name">Protocol</th>
+          <th data-sort="category">Category</th>
+          <th>Chains</th>
+          <th data-sort="tvl_usd">TVL</th>
+          <th data-sort="change_7d">7d</th>
+          <th data-sort="age_days">Age</th>
+          <th data-sort="implied_value_usd">Implied value</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <p class="empty" id="empty" hidden>No protocol matches these filters.</p>
+  </section>
+  <section class="panel" id="absent">
+    <h2>Why some big names are absent</h2>
+    <p>Above the floor, only the watchlist itself is ranked. A large protocol the watchlist leaves out is usually a product or an arm of another protocol — a curator's vault, an exchange's international arm, a gateway — and its launch is not its own. Below the floor, the board ranks every pre-token protocol that passes the same no-wrapped, no-staked, no-bridged test the watchlist uses.</p>
+  </section>
+</main>
+<dialog id="detail" aria-label="Protocol detail">
+  <div id="detail-body"></div>
+  <form method="dialog" class="detail-close"><button type="submit">Close</button></form>
+</dialog>
+<footer>
+  <p>Data: DefiLlama protocols, sealed snapshot <span id="as-of"></span>. The board is generated from that snapshot alone; nothing on this page fetches the network. Model radar-2.</p>
+</footer>
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
